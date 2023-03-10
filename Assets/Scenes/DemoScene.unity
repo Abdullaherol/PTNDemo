@@ -249,8 +249,10 @@ GameObject:
   m_Component:
   - component: {fileID: 120878675}
   - component: {fileID: 120878674}
+  - component: {fileID: 120878677}
+  - component: {fileID: 120878676}
   m_Layer: 0
-  m_Name: Grid
+  m_Name: World
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -285,6 +287,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &120878676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120878673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32180bcda9f95114499d90e54923bb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _worldManager: {fileID: 120878677}
+  _groundTilemap: {fileID: 1692058559}
+  _groundTile: {fileID: 11400000, guid: 8cc90b963c5d2ed4a8f8dded9049bb4f, type: 2}
+  _baseColor:
+    serializedVersion: 2
+    rgba: 4280081756
+  _offsetColor:
+    serializedVersion: 2
+    rgba: 4280863838
+--- !u!114 &120878677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120878673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46d7e90f45da47db9a64a388bdaa4634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldSize: {x: 100, y: 100}
 --- !u!1 &251556044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,7 +1911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1535488918
 Transform:
   m_ObjectHideFlags: 0
@@ -2086,7 +2122,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1692058557
 Transform:
   m_ObjectHideFlags: 0
