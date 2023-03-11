@@ -300,7 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _groundTilemap: {fileID: 1692058559}
-  _groundTile: {fileID: 11400000, guid: 8cc90b963c5d2ed4a8f8dded9049bb4f, type: 2}
+  _groundTile: {fileID: 11400000, guid: f6677c3bef0cb3442832994bbf8e32a1, type: 2}
   _baseColor:
     serializedVersion: 2
     rgba: 4280081756
@@ -524,10 +524,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 154353c42e7cb5742bd2b23bf3d01df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 1
+  _moveSpeed: 0.1
   _maxSize: 15
   _minSize: 5
-  _scrollSpeed: 1
+  _scrollSpeed: -1
 --- !u!1 &521565945
 GameObject:
   m_ObjectHideFlags: 0
