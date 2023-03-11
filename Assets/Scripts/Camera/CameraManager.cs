@@ -19,6 +19,8 @@ public class CameraManager : MonoBehaviour//You can control camera.
     {
         _worldManager = WorldManager.Instance;
         _cameraComponent = GetComponent<Camera>();
+        
+        GoCenterPosition();
     }
 
     void Update()
@@ -78,7 +80,7 @@ public class CameraManager : MonoBehaviour//You can control camera.
     {
         var worldSize = _worldManager.worldSize;
 
-        var centerPosition = new Vector3(worldSize.x, worldSize.y, 0) / 2;
+        var centerPosition = new Vector3(worldSize.x, worldSize.y, transform.position.z) / 2;
 
         transform.position = centerPosition;
     }
