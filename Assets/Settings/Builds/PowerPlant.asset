@@ -18,7 +18,7 @@ MonoBehaviour:
   health: 50
   gridSize: {x: 2, y: 3, z: 0}
   isProductionBuild: 0
-  productionOffset: {x: 0, y: 0}
+  productionOffset: {x: 0, y: 0, z: 0}
   productionUnits: []
   isUnit: 0
   damage: 0

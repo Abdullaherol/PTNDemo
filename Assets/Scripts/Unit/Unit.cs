@@ -11,8 +11,8 @@ public class Unit : WorldEntity, IUnit
     {
         ConfigureHealth();
         
-        _movement.Configure(entity);
-        _attack.Configure(entity, _movement);
+        _movement.Initialize(entity);
+        _attack.Initialize(entity, _movement);
     }
 
     public void Shoot(WorldEntity target)

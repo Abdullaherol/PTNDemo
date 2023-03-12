@@ -11,7 +11,7 @@ public class Entity : ScriptableObject
     public Vector3Int gridSize;
 
     [Space, Header("Production")] public bool isProductionBuild;
-    public Vector2 productionOffset;
+    public Vector3Int productionOffset;
     public List<Entity> productionUnits = new List<Entity>();
 
     [Space, Header("Unit")] public bool isUnit;

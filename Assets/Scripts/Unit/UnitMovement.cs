@@ -7,7 +7,7 @@ public class UnitMovement : MonoBehaviour,IMoveableEntity
     public delegate void OnMovementStateChangeHandler(bool state);
     public event OnMovementStateChangeHandler OnMovementStateChange;
     
-    private List<Vector3Int> _path;
+    private List<Vector3Int> _pathPositions;
     private float _speed;
     private Vector3Int _gridSize;
 
@@ -16,7 +16,7 @@ public class UnitMovement : MonoBehaviour,IMoveableEntity
     
     public void Move(List<Vector3Int> path)
     {
-        _path = path;
+        _pathPositions = path;
         
         StopMove();
         StartMove();
@@ -24,7 +24,7 @@ public class UnitMovement : MonoBehaviour,IMoveableEntity
 
     private void StartMove()
     {
-        if(_path == null) return;
+        if(_pathPositions == null && _pathPositions.Count == 0) return;
         
         OnMovementStateChange?.Invoke(true);
         
@@ -37,7 +37,7 @@ public class UnitMovement : MonoBehaviour,IMoveableEntity
         StopCoroutine(nameof(MoveOnPath));
     }
 
-    public void Configure(Entity entity)
+    public void Initialize(Entity entity)
     {
         _speed = entity.speed;
         _gridSize = entity.gridSize;
@@ -47,13 +47,13 @@ public class UnitMovement : MonoBehaviour,IMoveableEntity
     {
         var moveTime = 1 / _speed;
 
-        var offset = _gridSize / 2;
+        var offset = (Vector3)_gridSize / 2;
 
-        while (_path.Count - 1 < _pathIndex)
+        while (_pathPositions.Count - 1 > _pathIndex && _pathPositions.Count > 1)
         {
-            var currentPosition = _path[_pathIndex] + offset;
+            var currentPosition = _pathPositions[_pathIndex] + offset;
 
-            var destination = _path[_pathIndex + 1] + offset;
+            var destination = _pathPositions[_pathIndex + 1] + offset;
 
             while (_currentTime <= moveTime)
             {

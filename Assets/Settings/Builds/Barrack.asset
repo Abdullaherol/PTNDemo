@@ -18,7 +18,7 @@ MonoBehaviour:
   health: 100
   gridSize: {x: 4, y: 4, z: 0}
   isProductionBuild: 1
-  productionOffset: {x: 0, y: 0}
+  productionOffset: {x: 2, y: -1, z: 0}
   productionUnits:
   - {fileID: 11400000, guid: c16e5329a5a9a604aa18f69c351207c1, type: 2}
   - {fileID: 11400000, guid: 4e3b5644ae572544186b4dc769a869c9, type: 2}

@@ -34,6 +34,11 @@ public class CameraManager : MonoBehaviour//You can control camera.
         CheckCameraSize();
     }
 
+    private bool CheckMouseOverUI()
+    {
+        return UIUtility.IsMouseOverUI();
+    }
+
     private void MoveCamera()//Camera movement
     {
         var horizontal = Input.GetAxis("Horizontal");
@@ -44,6 +49,8 @@ public class CameraManager : MonoBehaviour//You can control camera.
 
     private void ScrollCamera()//Camera orthographicSize with mouse scroll
     {
+        if(CheckMouseOverUI()) return; // if mouse over ui. we stop scrolling.
+        
         var scroll = Input.mouseScrollDelta.y;
 
         _cameraComponent.orthographicSize += scroll * _scrollSpeed;

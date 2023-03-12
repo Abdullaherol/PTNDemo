@@ -1,13 +1,12 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-[UnityEditor.CustomEditor(typeof(Entity))]
+[CustomEditor(typeof(Entity))]
 public class EntityEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         var entity = (Entity)target;
-
 
         if (entity.image != null)
         {

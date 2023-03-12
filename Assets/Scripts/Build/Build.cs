@@ -1,10 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Build : WorldEntity,IBuild
 {
-    private List<Vector3Int> _tilePositions;
+    public Vector3Int gridPosition;
     
+    private List<Vector3Int> _tilePositions;
+
+    private void Start()
+    {
+        ConfigureHealth();
+    }
+
     public List<Vector3Int> GetTilePositions()
     {
         return _tilePositions;

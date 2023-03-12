@@ -15,7 +15,7 @@ public class UnitAttack : MonoBehaviour
 
     private float _currentTime;
 
-    public void Configure(Entity entity, UnitMovement movement)
+    public void Initialize(Entity entity, UnitMovement movement)
     {
         _damage = entity.damage;
         _fireRate = entity.fireRate;

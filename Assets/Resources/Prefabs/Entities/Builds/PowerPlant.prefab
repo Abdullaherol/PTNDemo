@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1292672123285676492}
   - component: {fileID: 4788360656608124120}
   - component: {fileID: 5724850962301702013}
+  - component: {fileID: 1673736623422932391}
   m_Layer: 0
   m_Name: PowerPlant
   m_TagString: Untagged
@@ -112,3 +113,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entity: {fileID: 11400000, guid: 7a8b7a6143018ef4583300e01ab9d81d, type: 2}
   health: {fileID: 4788360656608124120}
+  gridPosition: {x: 0, y: 0, z: 0}
+--- !u!61 &1673736623422932391
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292672123285676483}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 5, y: 7.5}
+    newSize: {x: 5, y: 7.5}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5, y: 7.5}
+  m_EdgeRadius: 0

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 181561d22cc047e3be7a75fd99393765, type: 3}
   m_Name: Soldier3
   m_EditorClassIdentifier: 
-  entityName: Solider2
+  entityName: "Sold\u0131er3"
   image: {fileID: 21300000, guid: 26e9c28f3b7ae3f43956d7bcf9833661, type: 3}
   prefab: {fileID: 7919419402562819560, guid: 7e6ff8caeba517c46920ce800b95a965, type: 3}
   health: 10
   gridSize: {x: 1, y: 1, z: 0}
   isProductionBuild: 0
-  productionOffset: {x: 0, y: 0}
+  productionOffset: {x: 0, y: 0, z: 0}
   productionUnits: []
   isUnit: 1
   damage: 2
