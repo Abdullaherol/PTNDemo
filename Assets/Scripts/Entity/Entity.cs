@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Entity", menuName = "Entity/Create a new Entity")]
-public class Entity : ScriptableObject
+public class Entity : ScriptableObject //Main scriptable object for base world entites
 {
     [Header("General")] public string entityName;
     public Sprite image;

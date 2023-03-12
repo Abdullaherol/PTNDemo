@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class FactoryManager : Singleton<FactoryManager>
+public class FactoryManager : Singleton<FactoryManager>//Factory manager,it control our general factory.
 {
     [SerializeField] private Factory _factory;
 

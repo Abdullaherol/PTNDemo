@@ -1,75 +1,87 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitMovement : MonoBehaviour,IMoveableEntity
+public class UnitMovement : MonoBehaviour, IMoveableEntity//Unit movement system seperated from base class and it has some specific features 
 {
-    public delegate void OnMovementStateChangeHandler(bool state);
-    public event OnMovementStateChangeHandler OnMovementStateChange;
-    
-    private List<Vector3Int> _pathPositions;
+    public event Action<bool> OnMovementStateChange;
+
+    private List<Vector3Int> _pathPositions = new List<Vector3Int>();
     private float _speed;
     private Vector3Int _gridSize;
-
-    private float _currentTime;
     private int _pathIndex;
-    
-    public void Move(List<Vector3Int> path)
+
+    private Unit _unit;
+
+    private PathFinding _pathFinding;
+    private BuildManager _buildManager;
+
+    private bool _isMoving;
+
+    // Move the unit to the specified world entity
+    public void Move(WorldEntity worldEntity)
+    {
+        var destination = _buildManager.GetClosestWalkablePosition(_unit, _unit.gridPosition, worldEntity);
+        SetPath(_pathFinding.FindPath(_unit.gridPosition, destination));
+        MoveUnit();
+    }
+
+    // Move the unit to the specified destination
+    public void Move(Vector3Int destination)
+    {
+        SetPath(_pathFinding.FindPath(_unit.gridPosition, destination));
+        MoveUnit();
+    }
+
+    // Set the path that the unit will follow
+    private void SetPath(List<Vector3Int> path)
     {
         _pathPositions = path;
-        
-        StopMove();
-        StartMove();
+        _pathIndex = 0;
     }
 
-    private void StartMove()
+    // Start moving the unit along the current path
+    private void MoveUnit()
     {
-        if(_pathPositions == null && _pathPositions.Count == 0) return;
-        
-        OnMovementStateChange?.Invoke(true);
-        
-        StartCoroutine(nameof(MoveOnPath));
+        if (_isMoving || _pathPositions == null || _pathPositions.Count == 0) return;
+        _isMoving = true;
+        OnMovementStateChange?.Invoke(_isMoving);
+        StartCoroutine(MoveOnPath());
     }
 
-    private void StopMove()
-    {
-        OnMovementStateChange?.Invoke(false);
-        StopCoroutine(nameof(MoveOnPath));
-    }
-
-    public void Initialize(Entity entity)
-    {
-        _speed = entity.speed;
-        _gridSize = entity.gridSize;
-    }
-
+    // Coroutine to move the unit along the path
     private IEnumerator MoveOnPath()
     {
         var moveTime = 1 / _speed;
-
         var offset = (Vector3)_gridSize / 2;
 
-        while (_pathPositions.Count - 1 > _pathIndex && _pathPositions.Count > 1)
+        while (_pathIndex < _pathPositions.Count - 1)
         {
             var currentPosition = _pathPositions[_pathIndex] + offset;
-
             var destination = _pathPositions[_pathIndex + 1] + offset;
 
-            while (_currentTime <= moveTime)
+            for (float t = 0; t < moveTime; t += Time.deltaTime)
             {
-                _currentTime += Time.deltaTime;
-
-                float t = _currentTime / moveTime;
-
-                transform.position = Vector3.Lerp(currentPosition, destination, t);
-            
-                yield return  new WaitForEndOfFrame();
+                transform.position = Vector3.Lerp(currentPosition, destination, t / moveTime);
+                yield return null;
             }
-            _currentTime = 0;
-            
-            _pathIndex++;
+
+            transform.position = destination;
+            _unit.gridPosition = _pathPositions[++_pathIndex];
         }
-        
-        OnMovementStateChange?.Invoke(false);
+
+        _isMoving = false;
+        _pathPositions.Clear();
+        OnMovementStateChange?.Invoke(_isMoving);
+    }
+
+    public void Initialize(WorldEntity worldEntity)
+    {
+        _unit = worldEntity as Unit;
+        _speed = _unit.entity.speed;
+        _gridSize = _unit.entity.gridSize;
+        _pathFinding = PathFinding.Instance;
+        _buildManager = BuildManager.Instance;
     }
 }

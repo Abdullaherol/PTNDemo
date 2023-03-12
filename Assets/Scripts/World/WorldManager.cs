@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class WorldManager : MonoBehaviour
+public class WorldManager : MonoBehaviour//World manager
 {
     public static WorldManager Instance;
     

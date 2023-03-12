@@ -1,4 +1,4 @@
 ﻿public interface IUnit
 {
-    public void Shoot(WorldEntity entity);
+    public void Attack(WorldEntity entity);
 }

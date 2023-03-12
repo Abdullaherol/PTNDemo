@@ -4,10 +4,12 @@ using UnityEngine;
 public class EntityHealth : MonoBehaviour
 {
     public delegate void OnHealthChangeHandler(float health);
+
     public delegate void OnEntityDestroyHandler();
+
     public event OnHealthChangeHandler OnHealthChange;
     public event OnEntityDestroyHandler OnEntityDestroy;
-    
+
     private float _health;
 
     public float healthPoint
@@ -15,8 +17,8 @@ public class EntityHealth : MonoBehaviour
         get => _health;
         set => _health = value;
     }
-    
-    public void TakeDamage(float damage)//Return live status
+
+    public void TakeDamage(float damage) //Return live status
     {
         _health -= damage;
 
@@ -24,7 +26,29 @@ public class EntityHealth : MonoBehaviour
 
         if (_health <= 0)
         {
-            OnEntityDestroy?.Invoke();
+            DestroyWorldEntity();
+        }
+    }
+
+    public void DestroyWorldEntity()
+    {
+        OnEntityDestroy?.Invoke();
+        
+        var worldEntity = GetComponent<WorldEntity>();
+
+        if (worldEntity is Build)
+        {
+            var build = worldEntity as Build;
+
+            var buildManager = BuildManager.Instance;
+            buildManager.DestroyBuild(build);
+        }
+        else
+        {
+            var unit = worldEntity as Unit;
+
+            var unitManager = UnitManager.Instance;
+            unitManager.DestroyUnit(unit);
         }
     }
 }

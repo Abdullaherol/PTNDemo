@@ -2,7 +2,7 @@
 using UnityEngine;
 using Utility;
 
-public class SelectionManager : SelectionSubject
+public class SelectionManager : SelectionSubject//manager for in game board. it provides selection and targeting 
 {
     public WorldEntity selectedEntity;
     public WorldEntity targetEntity;
@@ -10,7 +10,6 @@ public class SelectionManager : SelectionSubject
     private Camera _mainCamera;
     private BuildController _buildController;
     private BuildManager _buildManager;
-    private PathFinding _pathFinding;
 
     private bool _OnBuildMode;
 
@@ -18,8 +17,6 @@ public class SelectionManager : SelectionSubject
 
     private void Start()
     {
-        _pathFinding = PathFinding.Instance;
-
         _buildController = BuildController.Instance;
         _buildController.OnBuildModeChange += OnBuildModeChange;
 
@@ -28,6 +25,7 @@ public class SelectionManager : SelectionSubject
         _mainCamera = Camera.main;
     }
 
+    //Handles OnBuildModeChange event
     private void OnBuildModeChange(bool state)
     {
         _OnBuildMode = state;
@@ -42,39 +40,15 @@ public class SelectionManager : SelectionSubject
             SelectEntity();
         }
 
-        if (Input.GetMouseButtonDown(1) && !_OnBuildMode && selectedEntity != null) //Move
+        if (Input.GetMouseButtonDown(1) && selectedEntity != null) //Move
         {
             if (!selectedEntity.entity.isUnit) return;
 
             SelectTarget();
-            
-            Unit unit = selectedEntity.GetComponent<Unit>();
-            var startPosition = unit.transform.position.ConvertToVector3Int();
-
-            if (targetEntity == null)
-            {
-                unit.Move(_pathFinding.FindPath(startPosition,_lastMouseGridPosition));
-                
-                return;
-            }
-
-
-            var targetPosition = targetEntity.transform.position.ConvertToVector3Int();
-
-            if (targetEntity is Build)
-            {
-                Build build = targetEntity as Build;
-
-                var walkablePosition = _buildManager.GetClosestWalkablePosition(startPosition, build);
-                unit.Move(_pathFinding.FindPath(startPosition, walkablePosition));
-            }
-            else
-            {
-                unit.Move(_pathFinding.FindPath(startPosition, targetPosition));
-            }
         }
     }
 
+    //Selection entity with left mouse click
     private void SelectEntity()
     {
         selectedEntity = null;
@@ -96,7 +70,8 @@ public class SelectionManager : SelectionSubject
 
         Notify(selectedEntity);
     }
-
+    
+    //Selection target with right mouse click
     private void SelectTarget()
     {
         targetEntity = null;
@@ -105,15 +80,36 @@ public class SelectionManager : SelectionSubject
 
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
+        Unit unit = selectedEntity.GetComponent<Unit>();
+        
         if (hit.collider == null)
         {
             _lastMouseGridPosition = GetMouseGridPosition();
+            unit.Move(_lastMouseGridPosition);
+            
             return;
         }
 
-        if (!hit.transform.TryGetComponent<WorldEntity>(out WorldEntity worldEntity)) ;
+        if (!hit.transform.TryGetComponent<WorldEntity>(out WorldEntity worldEntity)) return;
 
         targetEntity = worldEntity;
+        
+        if (targetEntity == null)
+        {
+            unit.Move(_lastMouseGridPosition);
+            return;
+        }
+
+        var targetPosition = targetEntity.transform.position.ConvertToVector3Int();
+
+        if (targetEntity is Build)
+        {
+            unit.Attack(targetEntity);
+        }
+        else
+        {
+            unit.Move(targetPosition);
+        }
     }
     
     private Vector3 GetMouseWorldPosition()

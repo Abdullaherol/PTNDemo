@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class WorldGroundGenerator : MonoBehaviour
+public class WorldGroundGenerator : MonoBehaviour//Ground tile generator script.
 {
     [SerializeField] private Tilemap _groundTilemap;
 

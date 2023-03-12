@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using Utility;
 
 [System.Serializable]
-public class InformationProductionItem : MonoBehaviour
+public class InformationProductionItem : MonoBehaviour//Information panel production part item. with this item we can produce new units.
 {
     private Entity _entity;
 
@@ -22,25 +23,9 @@ public class InformationProductionItem : MonoBehaviour
         
         _button.onClick.AddListener(Produce);
     }
-    
+
     public void Produce()
     {
-        var selectionManager = SelectionManager.Instance.GetComponent<SelectionManager>();
-        var selectedEntity = selectionManager.selectedEntity;
-
-        var unit = _unitManager.ProduceUnit(_entity);
-        
-        MoveUnitProductionPosition(selectedEntity,unit);
-    }
-
-    private void MoveUnitProductionPosition(WorldEntity selectedEntity,WorldEntity unitEntity)
-    {
-        Build build = selectedEntity.GetComponent<Build>();
-
-        var sizeOffset = (Vector3)unitEntity.entity.gridSize / 2;
-        
-        var position = build.gridPosition + selectedEntity.entity.productionOffset + sizeOffset;
-
-        unitEntity.transform.position = position;
+        _unitManager.PlaceUnit(_entity);
     }
 }

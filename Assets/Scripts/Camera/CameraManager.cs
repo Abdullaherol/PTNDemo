@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour//You can control camera.
+public class CameraManager : MonoBehaviour//Camera control script
 {
     [Header("Movement")] [SerializeField] private float _moveSpeed;
 

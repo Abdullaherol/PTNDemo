@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
+public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver//Information panel main script. it control all information panel components and updates
 {
     [SerializeField] private TMPro.TextMeshProUGUI _entityNameText;
     [SerializeField] private Image _entityImage;
@@ -31,7 +31,7 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
         else
         {
             Entity entity = worldEntity.entity;
-            
+
             _entityImage.gameObject.SetActive(true);
             _entityHealthImage.gameObject.SetActive(true);
 
@@ -47,7 +47,7 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
 
             _productionContent.SetActive(true);
 
-            for (int i = 0; i < _productionItems.Count; i++)//burayı ayır.
+            for (int i = 0; i < _productionItems.Count; i++) //burayı ayır.
             {
                 var productionItem = _productionItems[i];
 
@@ -66,7 +66,7 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
             }
         }
     }
-    
+
     public void OnSelect(WorldEntity worldEntity)
     {
         if (_lastSelectedWorldEntity != null)
@@ -74,6 +74,8 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
             if (_lastSelectedWorldEntity != worldEntity)
             {
                 _lastSelectedWorldEntity.health.OnHealthChange -= OnHealthChange;
+
+                _lastSelectedWorldEntity.health.OnEntityDestroy += OnSelectedEntityDestroyed;
             }
         }
 
@@ -100,14 +102,19 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver
         _entityHealthImage.fillAmount = percentage;
     }
 
+    private void OnSelectedEntityDestroyed()
+    {
+        OnSelect(null);
+    }
+
     private void UpdateManuelHealthBar()
     {
         var maxHealth = _lastSelectedWorldEntity.entity.health;
 
         var health = _lastSelectedWorldEntity.health.healthPoint;
-        
+
         var percentage = health / maxHealth;
-        
+
         _entityHealthImage.fillAmount = percentage;
     }
 }

@@ -2,7 +2,7 @@
 using UnityEngine;
 
 [CustomEditor(typeof(Entity))]
-public class EntityEditor : Editor
+public class EntityEditor : Editor //For scriptable object. It provides more understandable entities for Editor
 {
     public override void OnInspectorGUI()
     {

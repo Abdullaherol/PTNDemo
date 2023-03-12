@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ProductionMenuController : MonoBehaviour, IScrollHandler
+public class ProductionMenuController : MonoBehaviour, IScrollHandler//Production menu controller. it provides infinite scroll view and it has object pooling system.
 {
     [SerializeField] private GameObject _productionMenuItemPrefab;
     [SerializeField] private Transform content;
@@ -15,7 +15,7 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler
     [SerializeField] private List<Entity> _entities = new List<Entity>();
 
     private List<ProductionMenuItem> _items = new List<ProductionMenuItem>();
-    private List<Entity> _unusedEntities = new List<Entity>();
+    private List<Entity> _unusedEntities = new List<Entity>();//pool
 
     private float _contentHeight;
     private float _contentWidth;

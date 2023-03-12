@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using UnityEngine;
 
-public class Node2D
+public class Node2D//For every signle point in the grid
 {
     public int gCost;
     public int hCost;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : WorldEntity, IUnit
+public class Unit : WorldEntity, IUnit//base unit class
 {
     [SerializeField] private UnitAttack _attack;
     [SerializeField] private UnitMovement _movement;
@@ -11,17 +11,18 @@ public class Unit : WorldEntity, IUnit
     {
         ConfigureHealth();
         
-        _movement.Initialize(entity);
-        _attack.Initialize(entity, _movement);
+        _movement.Initialize(this);
+        _attack.Initialize(this);
     }
 
-    public void Shoot(WorldEntity target)
+    public void Attack(WorldEntity target)
     {
         _attack.Attack(target);
     }
 
-    public void Move(List<Vector3Int> path)
+    public void Move(Vector3Int destination)
     {
-        _movement.Move(path);
+        _attack.StopAttack();
+        _movement.Move(destination);
     }
 }

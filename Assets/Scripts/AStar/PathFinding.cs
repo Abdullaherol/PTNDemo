@@ -5,7 +5,6 @@ using Vector3 = System.Numerics.Vector3;
 
 public class PathFinding : Singleton<PathFinding>
 {
-    private Vector3Int startPosition, targetPosition;
     private Grid2D grid;
 
     private Node2D startNode, targetNode;
@@ -15,34 +14,32 @@ public class PathFinding : Singleton<PathFinding>
         grid = GetComponent<Grid2D>();
     }
 
+    //Calculate path by A* algorithm
     public List<Vector3Int> FindPath(Vector3Int startPosition, Vector3Int targetPosition)
     {
-        this.startPosition = startPosition;
-        this.targetPosition = targetPosition;
-
         startNode = grid.GetNodeByPosition(startPosition);
         targetNode = grid.GetNodeByPosition(targetPosition);
 
-        List<Node2D> openSet = new List<Node2D>();
-        HashSet<Node2D> closedSet = new HashSet<Node2D>();
-        openSet.Add(startNode);
+        List<Node2D> discoveredNodes = new List<Node2D>();
+        HashSet<Node2D> visitedNodes = new HashSet<Node2D>();
+        discoveredNodes.Add(startNode);
 
-        while (openSet.Count > 0)
+        while (discoveredNodes.Count > 0)
         {
-            Node2D node = openSet[0];
-            for (int i = 0; i < openSet.Count; i++)
+            Node2D node = discoveredNodes[0];
+            for (int i = 0; i < discoveredNodes.Count; i++)
             {
-                if (openSet[i].fCost <= node.fCost)
+                if (discoveredNodes[i].fCost <= node.fCost)
                 {
-                    if (openSet[i].hCost < node.hCost)
+                    if (discoveredNodes[i].hCost < node.hCost)
                     {
-                        node = openSet[i];
+                        node = discoveredNodes[i];
                     }
                 }
             }
 
-            openSet.Remove(node);
-            closedSet.Add(node);
+            discoveredNodes.Remove(node);
+            visitedNodes.Add(node);
 
             if (node == targetNode)
             {
@@ -51,22 +48,22 @@ public class PathFinding : Singleton<PathFinding>
 
             foreach (var neighbor in grid.GetNeighbors(node))
             {
-                if (neighbor.obstacle || closedSet.Contains(neighbor))
+                if (neighbor.obstacle || visitedNodes.Contains(neighbor))
                 {
                     continue;
                 }
 
                 int costToNeighbor = node.gCost + GetDistance(node, neighbor);
 
-                if (costToNeighbor < neighbor.gCost || !openSet.Contains(neighbor))
+                if (costToNeighbor < neighbor.gCost || !discoveredNodes.Contains(neighbor))
                 {
                     neighbor.gCost = costToNeighbor;
                     neighbor.hCost = GetDistance(neighbor,targetNode);
                     neighbor.parent = node;
 
-                    if (!openSet.Contains(neighbor))
+                    if (!discoveredNodes.Contains(neighbor))
                     {
-                        openSet.Add(neighbor);
+                        discoveredNodes.Add(neighbor);
                     }
                 }
             }
@@ -75,6 +72,7 @@ public class PathFinding : Singleton<PathFinding>
         return new List<Vector3Int>();
     }
 
+    //Get path by calculated points then reverse and return path
     private List<Vector3Int> GetPath(Node2D startNode, Node2D endNode)//Calculate path then reverse it.
     {
         List<Vector3Int> path = new List<Vector3Int>();
@@ -92,7 +90,8 @@ public class PathFinding : Singleton<PathFinding>
         return path;
     }
 
-    private int GetDistance(Node2D firstNode, Node2D secondNode)//Gets distance between first node and second nodes
+    //Calculate distance between first and second node
+    private int GetDistance(Node2D firstNode, Node2D secondNode)
     {
         int distanceX = Mathf.Abs(firstNode.gridPosition.x - secondNode.gridPosition.x);
         int distanceY = Mathf.Abs(firstNode.gridPosition.y - secondNode.gridPosition.y);

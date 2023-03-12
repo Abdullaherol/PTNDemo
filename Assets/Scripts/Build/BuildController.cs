@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class BuildController : Singleton<BuildController>
+public class BuildController : Singleton<BuildController>//Control grid build placement
 {
     public delegate void OnBuildModeChangeHandler(bool state);
 

@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProductionMenuItem : MonoBehaviour
+public class ProductionMenuItem : MonoBehaviour//In Infinite scroll view/Production menu, script for each menu item control.
 {
     public Entity entity;
 

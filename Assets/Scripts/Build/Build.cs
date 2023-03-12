@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Build : WorldEntity,IBuild
+public class Build : WorldEntity,IBuild//Base build class, each build world entity is build
 {
-    public Vector3Int gridPosition;
-    
     private List<Vector3Int> _tilePositions;
 
     private void Start()
