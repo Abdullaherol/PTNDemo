@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181561d22cc047e3be7a75fd99393765, type: 3}
+  m_Name: PowerPlant
+  m_EditorClassIdentifier: 
+  entityName: Power Plant
+  image: {fileID: 21300000, guid: 2baf785381e95f746b7a518a499b5485, type: 3}
+  prefab: {fileID: 1292672123285676483, guid: 1ae5e4fa515f1e7489c06b3d6274b6ba, type: 3}
+  health: 50
+  gridSize: {x: 2, y: 3, z: 0}
+  isProductionBuild: 0
+  productionOffset: {x: 0, y: 0, z: 0}
+  productionUnits: []
+  isUnit: 0
+  damage: 0
+  speed: 0
+  fireRate: 0
