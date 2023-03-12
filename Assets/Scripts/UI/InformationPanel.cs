@@ -9,7 +9,8 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver/
     [SerializeField] private TMPro.TextMeshProUGUI _entityNameText;
     [SerializeField] private Image _entityImage;
     [SerializeField] private Image _entityHealthImage;
-    [SerializeField] private GameObject _productionContent;
+    [SerializeField] private GameObject _productionParentContent;
+    [SerializeField] private RectTransform _productionCItemContent;
     [SerializeField] private List<InformationProductionItem> _productionItems = new List<InformationProductionItem>();
 
     private WorldEntity _lastSelectedWorldEntity;
@@ -17,56 +18,82 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver/
     private void Start()
     {
         SelectionManager.Instance.Attach(this);
+        
+        RefreshUI(null);
     }
 
+    //Main refresh ui method
     private void RefreshUI(WorldEntity worldEntity)
     {
         if (worldEntity == null)
         {
-            _entityNameText.text = null;
-            _entityImage.gameObject.SetActive(false);
-            _entityHealthImage.gameObject.SetActive(false);
-            _productionContent.SetActive(false);
+            HidePanels();
         }
         else
         {
             Entity entity = worldEntity.entity;
 
-            _entityImage.gameObject.SetActive(true);
-            _entityHealthImage.gameObject.SetActive(true);
-
-            _entityNameText.text = entity.entityName;
-            _entityImage.sprite = entity.image;
-
+            RefreshInformationPart(entity);
 
             if (!entity.isProductionBuild)
             {
-                _productionContent.SetActive(false);
+                _productionParentContent.SetActive(false);
                 return;
             }
 
-            _productionContent.SetActive(true);
+            _productionParentContent.SetActive(true);
 
-            for (int i = 0; i < _productionItems.Count; i++) //burayı ayır.
+            RefreshProductionItems(entity);
+        }
+    }
+
+    //Hide all panels
+    private void HidePanels()
+    {
+        _entityNameText.text = null;
+        _entityImage.gameObject.SetActive(false);
+        _entityHealthImage.gameObject.SetActive(false);
+        _productionParentContent.SetActive(false);
+    }
+
+    //Refresh information part
+    private void RefreshInformationPart(Entity entity)
+    {
+        _entityImage.gameObject.SetActive(true);
+        _entityHealthImage.gameObject.SetActive(true);
+
+        _entityNameText.text = entity.entityName;
+        _entityImage.sprite = entity.image;
+    }
+
+    //refresh production items
+    private void RefreshProductionItems(Entity entity)
+    {
+        var itemSize = _productionCItemContent.rect.size.y;
+        
+        for (int i = 0; i < _productionItems.Count; i++)
+        {
+            var productionItem = _productionItems[i];
+
+            var image = productionItem.GetComponent<Image>();
+
+            if (i < entity.productionUnits.Count)
             {
-                var productionItem = _productionItems[i];
+                var unitEntity = entity.productionUnits[i];
 
-                if (i < entity.productionUnits.Count)
-                {
-                    var unitEntity = entity.productionUnits[i];
+                image.enabled = true;
+                    
+                productionItem.Initialize(unitEntity,itemSize);
 
-                    productionItem.Initialize(unitEntity);
-
-                    productionItem.gameObject.SetActive(true);
-                }
-                else
-                {
-                    productionItem.gameObject.SetActive(false);
-                }
+            }
+            else
+            {
+                image.enabled = false;
             }
         }
     }
 
+    //Handle OnSelect event
     public void OnSelect(WorldEntity worldEntity)
     {
         if (_lastSelectedWorldEntity != null)
@@ -91,6 +118,7 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver/
         RefreshUI(worldEntity);
     }
 
+    //Handle OnHealthChange event
     private void OnHealthChange(float health)
     {
         if (_lastSelectedWorldEntity == null) return;
@@ -102,11 +130,13 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver/
         _entityHealthImage.fillAmount = percentage;
     }
 
+    //Handle OnSelectedEntityDestroyed event
     private void OnSelectedEntityDestroyed()
     {
         OnSelect(null);
     }
 
+    //Updates health bar by manuel
     private void UpdateManuelHealthBar()
     {
         var maxHealth = _lastSelectedWorldEntity.entity.health;

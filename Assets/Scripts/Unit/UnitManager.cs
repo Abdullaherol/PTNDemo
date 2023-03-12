@@ -22,6 +22,7 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
     public void DestroyUnit(Unit unit)
     {
         _units.Remove(unit);
+        
         _factoryManager.ReturnWorldEntity(unit);
     }
 

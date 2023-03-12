@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BuildController : Singleton<BuildController>//Control grid build placement
 {
@@ -16,6 +17,10 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
     private FactoryManager _factoryManager;
 
     private Camera _mainCamera;
+
+    private Vector3 _lastMousePosition;
+
+    private bool _placeWrongAreTried;
 
     private void Start()
     {
@@ -37,11 +42,28 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
 
     public void Place()
     {
+        if (_placeWrongAreTried && Vector3.Distance(Input.mousePosition, _lastMousePosition) > 0)
+        {
+            if (_buildWorldEntity == null) return;
+
+            _buildWorldEntity.GetComponent<SpriteRenderer>().color = Color.white;
+
+            _placeWrongAreTried = false;
+        }
+        
         if (Input.GetMouseButtonDown(0))
         {
             var gridPosition = GetMouseGridPosition();
 
-            if (!buildManager.CanPlaceWorldEntity(gridPosition, _buildWorldEntity)) return;
+            if (!buildManager.CanPlaceWorldEntity(gridPosition, _buildWorldEntity))
+            {
+                _buildWorldEntity.GetComponent<SpriteRenderer>().color = Color.red;
+                
+                _placeWrongAreTried = true;
+                
+                _lastMousePosition = Input.mousePosition;
+                return;
+            }
 
             buildManager.PlaceBuild(gridPosition, _buildWorldEntity);
 

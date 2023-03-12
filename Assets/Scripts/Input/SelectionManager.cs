@@ -2,10 +2,10 @@
 using UnityEngine;
 using Utility;
 
-public class SelectionManager : SelectionSubject//manager for in game board. it provides selection and targeting 
+public class SelectionManager : SelectionSubject //manager for in game board. it provides selection and targeting 
 {
-    public WorldEntity selectedEntity;
-    public WorldEntity targetEntity;
+    [HideInInspector] public WorldEntity selectedEntity;
+    [HideInInspector] public WorldEntity targetEntity;
 
     private Camera _mainCamera;
     private BuildController _buildController;
@@ -48,11 +48,18 @@ public class SelectionManager : SelectionSubject//manager for in game board. it 
         }
     }
 
+    public void SelectManuel(WorldEntity worldEntity)
+    {
+        selectedEntity = worldEntity;
+
+        Notify(selectedEntity);
+    }
+
     //Selection entity with left mouse click
     private void SelectEntity()
     {
         selectedEntity = null;
-        
+
         Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -70,48 +77,39 @@ public class SelectionManager : SelectionSubject//manager for in game board. it 
 
         Notify(selectedEntity);
     }
-    
+
     //Selection target with right mouse click
     private void SelectTarget()
     {
         targetEntity = null;
-        
+
         Vector2 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
 
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
 
         Unit unit = selectedEntity.GetComponent<Unit>();
-        
+
         if (hit.collider == null)
         {
             _lastMouseGridPosition = GetMouseGridPosition();
             unit.Move(_lastMouseGridPosition);
-            
+
             return;
         }
 
         if (!hit.transform.TryGetComponent<WorldEntity>(out WorldEntity worldEntity)) return;
 
         targetEntity = worldEntity;
-        
+
         if (targetEntity == null)
         {
             unit.Move(_lastMouseGridPosition);
             return;
         }
 
-        var targetPosition = targetEntity.transform.position.ConvertToVector3Int();
-
-        if (targetEntity is Build)
-        {
-            unit.Attack(targetEntity);
-        }
-        else
-        {
-            unit.Move(targetPosition);
-        }
+        unit.Attack(targetEntity);
     }
-    
+
     private Vector3 GetMouseWorldPosition()
     {
         var mousePosition = Input.mousePosition;
