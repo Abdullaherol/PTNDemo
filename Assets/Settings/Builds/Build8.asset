@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181561d22cc047e3be7a75fd99393765, type: 3}
+  m_Name: Build8
+  m_EditorClassIdentifier: 
+  entityName: Build8
+  image: {fileID: 21300000, guid: 6fa96cbcecc3dcd4ea94f80c75d8d694, type: 3}
+  prefab: {fileID: 5122419632545950733, guid: 3c8a67711b075ce4d934fe94a608f028, type: 3}
+  health: 20
+  gridSize: {x: 1, y: 3, z: 0}
+  isProductionBuild: 1
+  productionOffset: {x: 0, y: -1, z: 0}
+  productionUnits:
+  - {fileID: 11400000, guid: f1dec1812c3b5ce438f3295535a6f979, type: 2}
+  isUnit: 0
+  damage: 0
+  speed: 0
+  fireRate: 0

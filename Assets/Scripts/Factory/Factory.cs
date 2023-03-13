@@ -16,6 +16,8 @@ public class Factory : MonoBehaviour //General factory and it has object pool.
             var worldEntity = _worldEntities.First(x => x.entity == entity);
             worldEntity.gameObject.SetActive(true);
 
+            _worldEntities.Remove(worldEntity);
+
             return worldEntity;
         }
 

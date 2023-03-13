@@ -22,7 +22,7 @@ public class Grid2D : MonoBehaviour
         CreateGrid(_buildManager.GetAllBuildPositions());
     }
 
-    //Handle OnBUildsModified, then refresh grid nodes
+    //Handle OnBuildsModified, then refresh grid nodes
     private void OnBuildsModified()
     {
         RefreshGrid();

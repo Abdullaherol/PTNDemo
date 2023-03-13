@@ -2,12 +2,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ProductionMenuController : MonoBehaviour, IScrollHandler//Production menu controller. it provides infinite scroll view and it has object pooling system.
+public class
+    ProductionMenuController : MonoBehaviour,
+        IScrollHandler //Production menu controller. it provides infinite scroll view and it has object pooling system.
 {
     [SerializeField] private GameObject _productionMenuItemPrefab;
     [SerializeField] private Transform content;
 
-    [SerializeField] private float _menuItemHeight;
     [SerializeField] private float _menuItemPadding;
     [SerializeField] private float _scrollSpeed;
     [SerializeField] private Vector2Int _menuGridSize;
@@ -15,10 +16,12 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
     [SerializeField] private List<Entity> _entities = new List<Entity>();
 
     private List<ProductionMenuItem> _items = new List<ProductionMenuItem>();
-    private List<Entity> _unusedEntities = new List<Entity>();//pool
+    private List<Entity> _unusedEntities = new List<Entity>(); //pool
 
     private float _contentHeight;
     private float _contentWidth;
+
+    private float _itemSize;
 
     private void Start()
     {
@@ -26,6 +29,8 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
 
         _contentHeight = rect.height;
         _contentWidth = rect.width;
+
+        _itemSize = (_contentWidth - (_menuItemPadding * (_menuGridSize.x + 1)))/2;
 
         for (int y = 0; y < _menuGridSize.y; y++) //pool objects spawning
         {
@@ -38,14 +43,17 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
                 var item = child.GetComponent<ProductionMenuItem>();
                 item.Configure(entity);
 
-                var radius = _menuItemHeight / 2;
+                var radius = _itemSize / 2;
                 var posY = (-radius - _menuItemPadding) * (1 + y * 2);
 
                 var posX = (_menuItemPadding * (x + 1)) + (radius * (1 + x * 2));
 
-                posX += (_contentWidth - radius * 4 - _menuItemPadding * 2) / 2; //For dynamic aspect ratio, it center item
+                posX += (_contentWidth - radius * 4 - _menuItemPadding * 2) /
+                        2; //For dynamic aspect ratio, it center item
 
-                child.GetComponent<RectTransform>().anchoredPosition = new Vector3(posX, posY, 0);
+                var itemRect = child.GetComponent<RectTransform>();
+                itemRect.anchoredPosition = new Vector3(posX, posY, 0);
+                itemRect.sizeDelta = new Vector2(_itemSize, _itemSize);
 
                 _items.Add(item);
             }
@@ -72,7 +80,7 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
 
     private void RepositionMenuItems(bool up) //Control items thresholds and move up or down, then assign entity
     {
-        var outDistance = _contentHeight / 2 + _menuItemHeight / 2;
+        var outDistance = _contentHeight / 2 + _itemSize / 2;
 
         var rowFirstIndex = (up) ? 0 : (_menuGridSize.x * _menuGridSize.y) - 2;
         var rowSecondIndex = (up) ? 1 : (_menuGridSize.x * _menuGridSize.y) - 1;
@@ -93,22 +101,23 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
 
         var referencePosition = referenceItem.transform.position;
 
-        var targetHeight = referencePosition.y + ((up) ? -(_menuItemPadding + _menuItemHeight) : (_menuItemPadding + _menuItemHeight));
+        var targetHeight = referencePosition.y +
+                           ((up) ? -(_menuItemPadding + _itemSize) : (_menuItemPadding + _itemSize));
 
         rowFirstItem.transform.position = new Vector3(rowFirstPosition.x, targetHeight, 0);
         rowSecondItem.transform.position = new Vector3(rowSecondPosition.x, targetHeight, 0);
 
         if (up)
         {
-            ProcessUp(rowFirstItem,rowSecondItem);
+            ProcessUp(rowFirstItem, rowSecondItem);
         }
         else
         {
-            ProcessDown(rowFirstItem,rowSecondItem);
+            ProcessDown(rowFirstItem, rowSecondItem);
         }
     }
-    
-    private void ProcessUp(ProductionMenuItem rowFirstItem,ProductionMenuItem rowSecondItem)
+
+    private void ProcessUp(ProductionMenuItem rowFirstItem, ProductionMenuItem rowSecondItem)
     {
         var firstEntity = _unusedEntities[0];
         var secondEntity = _unusedEntities[1];
@@ -129,7 +138,7 @@ public class ProductionMenuController : MonoBehaviour, IScrollHandler//Productio
         _items.Add(rowSecondItem);
     }
 
-    private void ProcessDown(ProductionMenuItem rowFirstItem,ProductionMenuItem rowSecondItem)
+    private void ProcessDown(ProductionMenuItem rowFirstItem, ProductionMenuItem rowSecondItem)
     {
         var lastFirstEntity = _unusedEntities[^1];
         var lastSecondEntity = _unusedEntities[^2];

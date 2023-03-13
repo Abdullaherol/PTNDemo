@@ -23,6 +23,7 @@ public class WorldGroundGenerator : MonoBehaviour//Ground tile generator script.
         GenerateGround();
     }
 
+    //Generate ground tiles
     private void GenerateGround()
     {
         var worldSize = _worldManager.worldSize;

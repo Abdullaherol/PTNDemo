@@ -78,6 +78,9 @@ public class UnitAttack : MonoBehaviour//Unit attack system seperated from base 
     private void StartAttack()
     {
         _isAttacking = true;
+        
+        if(_target == null) return;
+        
         _target.health.OnEntityDestroy += OnTargetDestroy;
 
         StartCoroutine(nameof(AttackOnTarget));

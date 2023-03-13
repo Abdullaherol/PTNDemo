@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 using Utility;
 
@@ -12,7 +13,9 @@ public class InformationProductionItem : MonoBehaviour//Information panel produc
 
     private UnitManager _unitManager;
 
-    public void Initialize(Entity entity)
+    private RectTransform _rectTransform;
+
+    public void Initialize(Entity entity,float size)
     {
         _entity = entity;
         _image.sprite = entity.image;
@@ -22,6 +25,15 @@ public class InformationProductionItem : MonoBehaviour//Information panel produc
         _button.onClick.RemoveAllListeners();
         
         _button.onClick.AddListener(Produce);
+        
+        if (_rectTransform == null)
+        {
+            _rectTransform = GetComponent<RectTransform>();
+        }
+
+        Debug.Log(size);
+        
+        _rectTransform.sizeDelta = new Vector2(size, size);
     }
 
     public void Produce()
