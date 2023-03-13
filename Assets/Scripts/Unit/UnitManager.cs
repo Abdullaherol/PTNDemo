@@ -14,11 +14,13 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
         _factoryManager = FactoryManager.Instance;
     }
 
+    //Return unit world entity from factory
     private WorldEntity ProduceUnit(Entity entity)
     {
         return _factoryManager.GetWorldEntity(entity);
     }
 
+    //remove unit from list and put back to factory
     public void DestroyUnit(Unit unit)
     {
         _units.Remove(unit);
@@ -26,6 +28,7 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
         _factoryManager.ReturnWorldEntity(unit);
     }
 
+    //Return all unit positions
     public List<Vector3Int> GetAllUnitPositions(Unit exclusiveUnit)
     {
         List<Vector3Int> positions = new List<Vector3Int>();
@@ -39,6 +42,7 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
         return positions;
     }
     
+    //Return grid positions of unit world entity
     private List<Vector3Int> CalculateWorldEntityGridPositions(Vector3Int gridPosition, WorldEntity worldEntity)
     {
         List<Vector3Int> positions = new List<Vector3Int>();
@@ -63,6 +67,7 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
         return positions;
     }
     
+    //Place unit
     public void PlaceUnit(Entity entity)
     {
         var selectionManager = SelectionManager.Instance.GetComponent<SelectionManager>();
@@ -77,6 +82,7 @@ public class UnitManager : Singleton<UnitManager>//Manager class for units, it p
         MoveUnitProductionPosition(selectedEntity,worldEntity);
     }
 
+    //Teleport unit to specific position
     private void MoveUnitProductionPosition(WorldEntity selectedEntity,WorldEntity unitEntity)
     {
         Build build = selectedEntity.GetComponent<Build>();

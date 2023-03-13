@@ -15,11 +15,13 @@ public class Unit : WorldEntity, IUnit//base unit class
         _attack.Initialize(this);
     }
 
+    //Unit attack method
     public void Attack(WorldEntity target)
     {
         _attack.Attack(target);
     }
 
+    //Unit move method
     public void Move(Vector3Int destination)
     {
         _attack.StopAttack();

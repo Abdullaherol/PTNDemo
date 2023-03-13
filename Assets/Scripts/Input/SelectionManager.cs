@@ -48,13 +48,6 @@ public class SelectionManager : SelectionSubject //manager for in game board. it
         }
     }
 
-    public void SelectManuel(WorldEntity worldEntity)
-    {
-        selectedEntity = worldEntity;
-
-        Notify(selectedEntity);
-    }
-
     //Selection entity with left mouse click
     private void SelectEntity()
     {
@@ -110,6 +103,7 @@ public class SelectionManager : SelectionSubject //manager for in game board. it
         unit.Attack(targetEntity);
     }
 
+    //Return mouse world position
     private Vector3 GetMouseWorldPosition()
     {
         var mousePosition = Input.mousePosition;
@@ -118,6 +112,7 @@ public class SelectionManager : SelectionSubject //manager for in game board. it
         return worldPoint;
     }
 
+    //Return mouse grid position
     private Vector3Int GetMouseGridPosition()
     {
         var worldPosition = GetMouseWorldPosition();
@@ -125,7 +120,7 @@ public class SelectionManager : SelectionSubject //manager for in game board. it
         return new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
     }
 
-
+    //Checks is mouse over ui
     private bool CheckMouseOverUI()
     {
         return UIUtility.IsMouseOverUI();

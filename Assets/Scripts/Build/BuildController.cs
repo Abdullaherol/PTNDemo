@@ -5,21 +5,16 @@ using UnityEngine.UI;
 public class BuildController : Singleton<BuildController>//Control grid build placement
 {
     public delegate void OnBuildModeChangeHandler(bool state);
-
     public event OnBuildModeChangeHandler OnBuildModeChange;
 
     public BuildManager buildManager;
 
     private WorldEntity _buildWorldEntity;
-
-    private bool _onBuildMode;
-
     private FactoryManager _factoryManager;
-
     private Camera _mainCamera;
 
     private Vector3 _lastMousePosition;
-
+    private bool _onBuildMode;
     private bool _placeWrongAreTried;
 
     private void Start()
@@ -40,6 +35,7 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         Place();
     }
 
+    //Control placement and fire OnBuildModeChange event
     public void Place()
     {
         if (_placeWrongAreTried && Vector3.Distance(Input.mousePosition, _lastMousePosition) > 0)
@@ -74,11 +70,13 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         }
     }
 
+    //Checks build mode
     private bool CheckBuildMode()
     {
         return _onBuildMode && !UIUtility.IsMouseOverUI();
     }
 
+    //Return mouse world position
     private Vector3 GetMouseWorldPosition()
     {
         var mousePosition = Input.mousePosition;
@@ -87,6 +85,7 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         return worldPoint;
     }
 
+    //Return mouse grid position
     private Vector3Int GetMouseGridPosition()
     {
         var worldPosition = GetMouseWorldPosition();
@@ -94,6 +93,7 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         return new Vector3Int((int)worldPosition.x, (int)worldPosition.y, 0);
     }
 
+    //Control build indicator position
     private void MoveBuildIndicator()
     {
         var worldPosition = GetMouseWorldPosition();
@@ -105,6 +105,7 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         _buildWorldEntity.transform.position = position;
     }
 
+    //Check player exit
     private void TryExitBuildMode()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -119,6 +120,7 @@ public class BuildController : Singleton<BuildController>//Control grid build pl
         }
     }
 
+    //Main method for build
     public void Build(Entity entity)
     {
         if (entity.isUnit)

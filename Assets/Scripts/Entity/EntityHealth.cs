@@ -18,6 +18,7 @@ public class EntityHealth : MonoBehaviour
         set => _health = value;
     }
 
+    //Take damage and change health
     public void TakeDamage(float damage) //Return live status
     {
         _health -= damage;
@@ -30,6 +31,7 @@ public class EntityHealth : MonoBehaviour
         }
     }
 
+    //Destroy worldentity and put back pool
     public void DestroyWorldEntity()
     {
         OnEntityDestroy?.Invoke();

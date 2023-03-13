@@ -66,7 +66,7 @@ public class InformationPanel : Singleton<InformationPanel>, ISelectionObserver/
         _entityImage.sprite = entity.image;
     }
 
-    //refresh production items
+    //Refresh production items
     private void RefreshProductionItems(Entity entity)
     {
         var itemSize = _productionCItemContent.rect.size.y;

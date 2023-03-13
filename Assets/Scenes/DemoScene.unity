@@ -1091,7 +1091,7 @@ GameObject:
   - component: {fileID: 714596211}
   - component: {fileID: 714596210}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Title_Production
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1691,7 +1691,7 @@ GameObject:
   - component: {fileID: 1299492904}
   - component: {fileID: 1299492903}
   m_Layer: 5
-  m_Name: InformationProductionItem (2)
+  m_Name: InformationProductionItem3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2097,7 +2097,7 @@ GameObject:
   - component: {fileID: 1487504588}
   - component: {fileID: 1487504587}
   m_Layer: 5
-  m_Name: InformationProductionItem (1)
+  m_Name: InformationProductionItem2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2742,7 +2742,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1872192761}
   m_Layer: 0
-  m_Name: ---Environment----------------------------------Environment----------------------------------Environment----------------------------------Environment-------------------------------
+  m_Name: ---Environment-------------------------------
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2824,7 +2824,7 @@ GameObject:
   - component: {fileID: 1882917072}
   - component: {fileID: 1882917073}
   m_Layer: 5
-  m_Name: InformationProductionItem
+  m_Name: InformationProductionItem1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

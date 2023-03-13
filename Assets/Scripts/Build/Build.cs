@@ -11,11 +11,13 @@ public class Build : WorldEntity,IBuild//Base build class, each build world enti
         ConfigureHealth();
     }
 
+    //Return tile positions
     public List<Vector3Int> GetTilePositions()
     {
         return _tilePositions;
     }
 
+    //Set tile positions
     public void SetTilePositions(List<Vector3Int> positions)
     {
         _tilePositions = positions;

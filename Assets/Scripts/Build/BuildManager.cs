@@ -23,6 +23,7 @@ public class BuildManager : Singleton<BuildManager>
         _unitManager = UnitManager.Instance;
     }
 
+    //Return all build positions
     public List<Vector3Int> GetAllBuildPositions()
     {
         List<Vector3Int> positions = new List<Vector3Int>();
@@ -35,6 +36,7 @@ public class BuildManager : Singleton<BuildManager>
         return positions;
     }
 
+    //Check can place build
     public bool CanPlaceWorldEntity(Vector3Int gridPosition, WorldEntity worldEntity)
     {
         var worldEntityPoints = CalculateWorldEntityGridPositions(gridPosition, worldEntity);
@@ -44,7 +46,7 @@ public class BuildManager : Singleton<BuildManager>
         return worldEntityPoints.All(p => !buildsPoints.Contains(p) && !unitPoints.Contains(p));
     }
 
-
+    //Return grid points of world entity
     private List<Vector3Int> CalculateWorldEntityGridPositions(Vector3Int gridPosition, WorldEntity worldEntity)
     {
         List<Vector3Int> positions = new List<Vector3Int>();
@@ -71,6 +73,7 @@ public class BuildManager : Singleton<BuildManager>
         return positions;
     }
 
+    //Place build in specific grid 
     public void PlaceBuild(Vector3Int gridPosition, WorldEntity worldEntity)
     {
         Build build = worldEntity.GetComponent<Build>();
@@ -85,6 +88,7 @@ public class BuildManager : Singleton<BuildManager>
         _builds.Add(build);
     }
 
+    //Get walkable position from unit and targetEntity
     public List<Vector3Int> GetWalkablePositions(Unit walkUnit, WorldEntity worldEntity)
     {
         var unitPoints = _unitManager.GetAllUnitPositions(walkUnit);
@@ -130,6 +134,7 @@ public class BuildManager : Singleton<BuildManager>
         return positions;
     }
 
+    //Get closest walkable position from unit, startPosition and targetEntity
     public Vector3Int GetClosestWalkablePosition(Unit walkUnit, Vector3Int startPosition, WorldEntity worldEntity)
     {
         var walkablePositions = GetWalkablePositions(walkUnit, worldEntity);
@@ -139,6 +144,7 @@ public class BuildManager : Singleton<BuildManager>
         return walkablePositions.First(x => Vector3Int.Distance(startPosition, x) == minDistance);
     }
 
+    //Check is close to walkable position
     public bool IsCloseToWalkablePosition(Unit walkUnit, Vector3Int position, WorldEntity worldEntity)
     {
         var walkablePosition = GetClosestWalkablePosition(walkUnit, position, worldEntity);
@@ -146,6 +152,7 @@ public class BuildManager : Singleton<BuildManager>
         return position == walkablePosition;
     }
 
+    //Remove build from list and return object to pool
     public void DestroyBuild(Build build)
     {
         _builds.Remove(build);
